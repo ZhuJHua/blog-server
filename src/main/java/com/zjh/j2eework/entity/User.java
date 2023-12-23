@@ -31,6 +31,9 @@ public class User {
     @Column(name = "password")
     private String password;
     
+    @Column(name = "auth")
+    private Integer auth;
+    
     @ToString.Exclude
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     @OrderBy("id")
