@@ -1,7 +1,8 @@
 package com.zjh.j2eework.service;
 
 import com.zjh.j2eework.entity.Article;
-import com.zjh.j2eework.pojo.Result;
+
+import java.util.List;
 
 /**
  * @Description Article接口
@@ -9,11 +10,11 @@ import com.zjh.j2eework.pojo.Result;
  * @Date 2023/12/23
  */
 public interface ArticleService {
-    Result addArticle(Article article);
+    Article addArticle(Article article);
     
-    Result delArticle(Long id);
+    void delArticle(Long id);
     
-    Result findAllArticle();
+    List<Article> findAllArticle();
     
-    Result updateArticle(Article article);
+    Article updateArticle(Article article);
 }

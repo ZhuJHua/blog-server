@@ -1,7 +1,9 @@
 package com.zjh.j2eework.service;
 
 import com.zjh.j2eework.entity.User;
-import com.zjh.j2eework.pojo.Result;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @Description User接口
@@ -9,11 +11,13 @@ import com.zjh.j2eework.pojo.Result;
  * @Date 2023/12/23
  */
 public interface UserService {
-    Result addUser(User user);
+    User addUser(User user);
     
-    Result delUser(Long id);
+    void delUser(String username);
     
-    Result findAllUser();
+    List<User> findAllUser();
     
-    Result updateUser(User user);
+    User updateUser(User user);
+    
+    Optional<User> findUserByName(String username);
 }

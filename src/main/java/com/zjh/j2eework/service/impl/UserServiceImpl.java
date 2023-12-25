@@ -2,9 +2,11 @@ package com.zjh.j2eework.service.impl;
 
 import com.zjh.j2eework.dao.JpaUserRepository;
 import com.zjh.j2eework.entity.User;
-import com.zjh.j2eework.pojo.Result;
 import com.zjh.j2eework.service.UserService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @Description User service
@@ -20,22 +22,27 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public Result addUser(User user) {
-        return null;
+    public User addUser(User user) {
+        return jpaUserRepository.save(user);
     }
     
     @Override
-    public Result delUser(Long id) {
-        return null;
+    public void delUser(String username) {
+        jpaUserRepository.deleteByUsername(username);
     }
     
     @Override
-    public Result findAllUser() {
-        return null;
+    public List<User> findAllUser() {
+        return jpaUserRepository.findAll();
     }
     
     @Override
-    public Result updateUser(User user) {
-        return null;
+    public User updateUser(User user) {
+        return jpaUserRepository.save(user);
+    }
+    
+    @Override
+    public Optional<User> findUserByName(String username) {
+        return jpaUserRepository.findByUsername(username);
     }
 }

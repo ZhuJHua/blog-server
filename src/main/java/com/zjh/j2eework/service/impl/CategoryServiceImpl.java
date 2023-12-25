@@ -2,9 +2,10 @@ package com.zjh.j2eework.service.impl;
 
 import com.zjh.j2eework.dao.JpaCategoryRepository;
 import com.zjh.j2eework.entity.Category;
-import com.zjh.j2eework.pojo.Result;
 import com.zjh.j2eework.service.CategoryService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Description Category service
@@ -20,22 +21,22 @@ public class CategoryServiceImpl implements CategoryService {
     }
     
     @Override
-    public Result addCategory(Category category) {
-        return null;
+    public Category addCategory(Category category) {
+        return jpaCategoryRepository.save(category);
     }
     
     @Override
-    public Result delCategory(Long id) {
-        return null;
+    public void delCategory(Long id) {
+        jpaCategoryRepository.deleteById(id);
     }
     
     @Override
-    public Result findAllCategory() {
-        return null;
+    public List<Category> findAllCategory() {
+        return jpaCategoryRepository.findAll();
     }
     
     @Override
-    public Result updateCategory(Category category) {
-        return null;
+    public Category updateCategory(Category category) {
+        return jpaCategoryRepository.save(category);
     }
 }
