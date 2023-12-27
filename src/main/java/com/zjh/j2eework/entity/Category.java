@@ -1,5 +1,6 @@
 package com.zjh.j2eework.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -28,9 +29,5 @@ public class Category {
     @Column(name = "category_name")
     private String categoryName;
     
-    @ToString.Exclude
-    @OneToMany(mappedBy = "category", orphanRemoval = true)
-    @OrderBy("id")
-    private List<Article> articles = new ArrayList<>();
     
 }

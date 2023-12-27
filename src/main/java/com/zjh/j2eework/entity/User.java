@@ -1,13 +1,12 @@
 package com.zjh.j2eework.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Description 用户
@@ -29,14 +28,11 @@ public class User {
     private String username;
     
     @Column(name = "password")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     
     @Column(name = "auth")
+    @JsonIgnore
     private Integer auth;
-    
-    @ToString.Exclude
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
-    @OrderBy("id")
-    private List<Article> articles = new ArrayList<>();
     
 }

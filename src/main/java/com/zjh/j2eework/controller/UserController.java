@@ -31,7 +31,7 @@ public class UserController {
      */
     @PostMapping("/login")
     public Result doLogin(@RequestBody User user) {
-        
+        System.out.println(user);
         return userService.findUserByName(user.getUsername()).map(u -> {
             if (user.getPassword().equals(u.getPassword())) {
                 StpUtil.login(user.getUsername());
@@ -39,7 +39,7 @@ public class UserController {
             } else {
                 return new Result(BAD_REQUEST.getCode(), "用户名或密码错误", "");
             }
-        }).orElse(new Result(BAD_REQUEST.getCode(), "用户不存在", ""));
+        }).orElse(new Result(BAD_REQUEST.getCode(), "用户名或密码错误", ""));
         
     }
     

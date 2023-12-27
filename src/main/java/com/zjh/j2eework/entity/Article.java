@@ -25,14 +25,17 @@ public class Article {
     @Column(name = "title")
     private String title;
     
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "text")
     private String content;
     
     @Column(name = "post_time")
-    private String postTime;
+    private Long postTime;
     
     @Column(name = "tag")
     private String tag;
+    
+    @Column(name = "view")
+    private Long view;
     
     @ManyToOne
     @JoinColumn(name = "user_uid")

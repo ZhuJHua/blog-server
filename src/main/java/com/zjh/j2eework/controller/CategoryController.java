@@ -57,6 +57,7 @@ public class CategoryController {
     @PutMapping
     @SaCheckLogin
     public Result updateCategory(@RequestBody Category category) {
+        
         return new Result(OK.getCode(), OK.getDescription(), categoryService.updateCategory(category));
     }
 }
