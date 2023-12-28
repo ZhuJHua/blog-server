@@ -1,6 +1,6 @@
 package com.zjh.j2eework.service.impl;
 
-import com.zjh.j2eework.dao.JpaUserRepository;
+import com.zjh.j2eework.dao.jpa.JpaUserRepository;
 import com.zjh.j2eework.entity.User;
 import com.zjh.j2eework.service.UserService;
 import org.springframework.stereotype.Service;

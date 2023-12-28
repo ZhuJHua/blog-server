@@ -1,8 +1,10 @@
-package com.zjh.j2eework.dao;
+package com.zjh.j2eework.dao.jpa;
 
 import com.zjh.j2eework.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 /**
  * @Description 分类Jpa接口
@@ -11,4 +13,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface JpaCategoryRepository extends JpaRepository<Category, Long> {
+    Optional<Category> findByCategoryName(String categoryName);
 }

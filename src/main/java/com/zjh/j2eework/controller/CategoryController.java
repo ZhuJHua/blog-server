@@ -6,6 +6,7 @@ import com.zjh.j2eework.pojo.Result;
 import com.zjh.j2eework.service.impl.CategoryServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
+import static com.zjh.j2eework.util.HttpCode.BAD_REQUEST;
 import static com.zjh.j2eework.util.HttpCode.OK;
 
 /**
@@ -38,7 +39,11 @@ public class CategoryController {
     @PostMapping
     @SaCheckLogin
     public Result addCategory(@RequestBody Category category) {
-        return new Result(OK.getCode(), OK.getDescription(), categoryService.addCategory(category));
+        if (categoryService.findByCategoryName(category.getCategoryName()).isPresent()) {
+            return new Result(BAD_REQUEST.getCode(), "添加失败，分类已经存在！", "");
+        } else {
+            return new Result(OK.getCode(), "添加分类成功", categoryService.addCategory(category));
+        }
     }
     
     /**
@@ -48,7 +53,7 @@ public class CategoryController {
     @SaCheckLogin
     public Result delCategory(@RequestParam(name = "id") Long id) {
         categoryService.delCategory(id);
-        return new Result(OK.getCode(), OK.getDescription(), "");
+        return new Result(OK.getCode(), "删除分类成功", "");
     }
     
     /**
@@ -57,7 +62,10 @@ public class CategoryController {
     @PutMapping
     @SaCheckLogin
     public Result updateCategory(@RequestBody Category category) {
-        
-        return new Result(OK.getCode(), OK.getDescription(), categoryService.updateCategory(category));
+        if (categoryService.findByCategoryName(category.getCategoryName()).isPresent()) {
+            return new Result(BAD_REQUEST.getCode(), "修改失败，分类已经存在！", "");
+        } else {
+            return new Result(OK.getCode(), "修改分类成功", categoryService.updateCategory(category));
+        }
     }
 }

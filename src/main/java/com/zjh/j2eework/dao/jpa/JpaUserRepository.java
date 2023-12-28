@@ -1,4 +1,4 @@
-package com.zjh.j2eework.dao;
+package com.zjh.j2eework.dao.jpa;
 
 import com.zjh.j2eework.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

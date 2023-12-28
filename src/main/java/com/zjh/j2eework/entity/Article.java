@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * @Description 文章
@@ -12,6 +15,7 @@ import lombok.ToString;
  * @Date 2023/12/23
  */
 @Entity
+@Document(indexName = "article")
 @Getter
 @Setter
 @ToString
@@ -23,9 +27,11 @@ public class Article {
     private Long id;
     
     @Column(name = "title")
+    @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String title;
     
     @Column(name = "content", columnDefinition = "text")
+    @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String content;
     
     @Column(name = "post_time")

@@ -4,6 +4,7 @@ import com.zjh.j2eework.entity.Category;
 import com.zjh.j2eework.pojo.Result;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Description Category接口
@@ -18,4 +19,6 @@ public interface CategoryService {
     List<Category> findAllCategory();
     
     Category updateCategory(Category category);
+    
+    Optional<Category> findByCategoryName(String name);
 }

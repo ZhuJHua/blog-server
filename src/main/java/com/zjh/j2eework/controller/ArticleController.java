@@ -38,17 +38,13 @@ public class ArticleController {
     }
     
     /**
-     * 获取指定用户的文章
-     */
-    
-    /**
      * 删除文章
      */
     @DeleteMapping
     @SaCheckLogin
     public Result delArticle(@RequestParam(name = "id") Long id) {
         articleService.delArticle(id);
-        return new Result(OK.getCode(), OK.getDescription(), "");
+        return new Result(OK.getCode(), "删除文章成功", "");
     }
     
     /**
@@ -57,7 +53,10 @@ public class ArticleController {
     @PostMapping
     @SaIgnore
     public Result addArticle(@RequestBody Article article) {
-        return new Result(OK.getCode(), OK.getDescription(), articleService.addArticle(article));
+        //检测是否含有敏感词
+        return !articleService.checkArticle(article.getContent()) ? new Result(OK.getCode(), "添加文章成功",
+                articleService.addArticle(article)) : new Result(BAD_REQUEST.getCode(), "添加失败，文中含有敏感词", "");
+        
     }
     
     /**
@@ -66,7 +65,10 @@ public class ArticleController {
     @PutMapping
     @SaCheckLogin
     public Result updateArticle(@RequestBody Article article) {
-        return new Result(OK.getCode(), OK.getDescription(), articleService.updateArticle(article));
+        //检测是否含有敏感词
+        return !articleService.checkArticle(article.getContent()) ? new Result(OK.getCode(), "修改文章成功",
+                articleService.updateArticle(article)) : new Result(BAD_REQUEST.getCode(), "修改失败，文中含有敏感词", "");
+        
     }
     
     /**
@@ -78,4 +80,5 @@ public class ArticleController {
         articleService.updateViews(id);
         return new Result(OK.getCode(), OK.getDescription(), "");
     }
+    
 }

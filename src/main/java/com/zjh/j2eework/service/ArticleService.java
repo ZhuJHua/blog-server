@@ -22,4 +22,8 @@ public interface ArticleService {
     Optional<Article> findArticleById(Long id);
     
     void updateViews(Long id);
+    
+    boolean checkArticle(String content);
+    
+    void saveElastic(Article article);
 }
