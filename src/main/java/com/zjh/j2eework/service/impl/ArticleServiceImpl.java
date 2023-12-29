@@ -38,7 +38,7 @@ public class ArticleServiceImpl implements ArticleService {
         //文章写入到MySQL
         Article savedArticle = jpaArticleRepository.save(article);
         //文章写入到es
-        elasticService.saveToElasticSearch(article);
+        elasticService.saveToElasticSearch(savedArticle);
         return savedArticle;
     }
     
@@ -62,7 +62,7 @@ public class ArticleServiceImpl implements ArticleService {
         //更新newArticle中的文章
         Article newArticle = jpaArticleRepository.save(article);
         //更新es中的文章
-        elasticService.updateElasticSearch(article);
+        elasticService.updateElasticSearch(newArticle);
         return newArticle;
     }
     
@@ -82,8 +82,14 @@ public class ArticleServiceImpl implements ArticleService {
     }
     
     @Override
-    public void saveElastic(Article article) {
-    
+    @Transactional
+    public void flushElastic() {
+        //从数据库中获取最新的article
+        List<Article> articleList = jpaArticleRepository.findAll();
+        //删除es中所有数据
+        elasticService.delAllArticle();
+        //遍历list写入es
+        articleList.forEach(elasticService::saveToElasticSearch);
     }
     
 }

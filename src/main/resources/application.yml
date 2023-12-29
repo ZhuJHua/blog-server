@@ -19,7 +19,9 @@ spring:
     username: elastic
     uris: http://localhost:9200
 
-
+files:
+  upload:
+    path: D:/文件上传用/
 
 sa-token:
   # token 名称（同时也是 cookie 名称）

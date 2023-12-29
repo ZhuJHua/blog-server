@@ -26,4 +26,10 @@ public class EsController {
     public Result searchKeyword(@RequestParam(name = "id") String word) {
         return new Result(HttpCode.OK.getCode(), HttpCode.OK.getDescription(), elasticService.findByContent(word));
     }
+    
+    @DeleteMapping
+    @SaIgnore
+    public void delAllArticle(){
+        elasticService.delAllArticle();
+    }
 }

@@ -16,4 +16,6 @@ public interface ElasticService {
     
     List<Article> findByContent(String content);
     List<Article> findByTitle(String title);
+    void delAllArticle();
+    
 }

@@ -25,5 +25,5 @@ public interface ArticleService {
     
     boolean checkArticle(String content);
     
-    void saveElastic(Article article);
+    void flushElastic();
 }

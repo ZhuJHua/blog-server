@@ -81,4 +81,13 @@ public class ArticleController {
         return new Result(OK.getCode(), OK.getDescription(), "");
     }
     
+    /**
+     * 更新es索引
+     */
+    @GetMapping("/flush")
+    @SaCheckLogin
+    public Result flushEs() {
+        articleService.flushElastic();
+        return new Result(OK.getCode(), OK.getDescription(), "");
+    }
 }

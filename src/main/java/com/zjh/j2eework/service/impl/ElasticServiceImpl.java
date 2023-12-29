@@ -16,6 +16,8 @@ import java.util.List;
 public class ElasticServiceImpl implements ElasticService {
     private final ElasticSearchRepository elasticSearchRepository;
     
+    
+    
     public ElasticServiceImpl(ElasticSearchRepository elasticSearchRepository) {
         this.elasticSearchRepository = elasticSearchRepository;
     }
@@ -45,4 +47,10 @@ public class ElasticServiceImpl implements ElasticService {
     public List<Article> findByTitle(String title) {
         return elasticSearchRepository.findByTitle(title);
     }
+    
+    @Override
+    public void delAllArticle() {
+        elasticSearchRepository.deleteAll();
+    }
+    
 }
