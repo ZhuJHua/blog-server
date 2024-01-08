@@ -1,10 +1,14 @@
 package com.zjh.j2eework.entity;
 
-import jakarta.persistence.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.ibatis.type.JdbcType;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -14,41 +18,36 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * @Author 住京华 www.zhujinghua.com
  * @Date 2023/12/23
  */
-@Entity
+@TableName("article")
 @Document(indexName = "article")
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 public class Article {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "aid", nullable = false)
+    @TableId(type = IdType.AUTO, value = "aid")
     private Long id;
     
-    @Column(name = "title")
     @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String title;
     
-    @Column(name = "content", columnDefinition = "text")
+    @TableField(value = "content", jdbcType = JdbcType.LONGVARCHAR)
     @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String content;
     
-    @Column(name = "post_time")
+    @TableField(value = "post_time")
     private Long postTime;
     
-    @Column(name = "tag")
+    @TableField(value = "tag")
     private String tag;
     
-    @Column(name = "view")
+    @TableField(value = "view")
     private Long view;
     
-    @ManyToOne
-    @JoinColumn(name = "user_uid")
+    @TableField(value = "user_uid",exist = false)
     private User user;
     
-    @ManyToOne
-    @JoinColumn(name = "category_cid")
+    @TableField(value = "category_cid",exist = false)
     private Category category;
     
 }

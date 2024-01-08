@@ -1,33 +1,29 @@
 package com.zjh.j2eework.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Description 分类
  * @Author 住京华 www.zhujinghua.com
  * @Date 2023/12/23
  */
-@Entity
+@TableName("category")
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cid", nullable = false)
+    @TableId(type = IdType.AUTO,value = "cid")
     private Long id;
     
-    @Column(name = "category_name")
+    @TableField(value = "category_name")
     private String categoryName;
-    
     
 }

@@ -1,8 +1,11 @@
 package com.zjh.j2eework.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -13,25 +16,23 @@ import lombok.ToString;
  * @Author 住京华 www.zhujinghua.com
  * @Date 2023/12/23
  */
-@Entity
+@TableName("user")
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "uid", nullable = false)
+    @TableId(type = IdType.AUTO, value = "uid")
     private Long id;
     
-    @Column(name = "username")
+    @TableField(value = "username")
     private String username;
     
-    @Column(name = "password")
+    @TableField(value = "password")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     
-    @Column(name = "auth")
+    @TableField(value = "auth")
     @JsonIgnore
     private Integer auth;
     

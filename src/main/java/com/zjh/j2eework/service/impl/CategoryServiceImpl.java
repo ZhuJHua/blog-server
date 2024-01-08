@@ -1,6 +1,7 @@
 package com.zjh.j2eework.service.impl;
 
-import com.zjh.j2eework.dao.jpa.JpaCategoryRepository;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zjh.j2eework.dao.mapper.CategoryMapper;
 import com.zjh.j2eework.entity.Category;
 import com.zjh.j2eework.service.CategoryService;
 import org.springframework.stereotype.Service;
@@ -14,35 +15,44 @@ import java.util.Optional;
  * @Date 2023/12/23
  */
 @Service
-public class CategoryServiceImpl implements CategoryService {
-    private final JpaCategoryRepository jpaCategoryRepository;
+public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
+    private final CategoryMapper categoryMapper;
     
-    public CategoryServiceImpl(JpaCategoryRepository jpaCategoryRepository) {
-        this.jpaCategoryRepository = jpaCategoryRepository;
+    public CategoryServiceImpl(CategoryMapper categoryMapper) {
+        
+        this.categoryMapper = categoryMapper;
     }
     
     @Override
     public Category addCategory(Category category) {
-        return jpaCategoryRepository.save(category);
+        save(category);
+        return category;
     }
     
     @Override
     public void delCategory(Long id) {
-        jpaCategoryRepository.deleteById(id);
+        removeById(id);
     }
     
     @Override
     public List<Category> findAllCategory() {
-        return jpaCategoryRepository.findAll();
+        return list();
     }
     
     @Override
     public Category updateCategory(Category category) {
-        return jpaCategoryRepository.save(category);
+        updateById(category);
+        return category;
     }
     
     @Override
     public Optional<Category> findByCategoryName(String name) {
-        return jpaCategoryRepository.findByCategoryName(name);
+        //根据姓名 查询
+        return Optional.ofNullable(categoryMapper.findCategoryByName(name));
+    }
+    
+    @Override
+    public Category findCategoryById(Long id) {
+        return getById(id);
     }
 }

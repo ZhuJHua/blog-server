@@ -1,6 +1,7 @@
 package com.zjh.j2eework.service.impl;
 
-import com.zjh.j2eework.dao.jpa.JpaUserRepository;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zjh.j2eework.dao.mapper.UserMapper;
 import com.zjh.j2eework.entity.User;
 import com.zjh.j2eework.service.UserService;
 import org.springframework.stereotype.Service;
@@ -14,35 +15,44 @@ import java.util.Optional;
  * @Date 2023/12/23
  */
 @Service
-public class UserServiceImpl implements UserService {
-    private final JpaUserRepository jpaUserRepository;
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+    private final UserMapper userMapper;
     
-    public UserServiceImpl(JpaUserRepository jpaUserRepository) {
-        this.jpaUserRepository = jpaUserRepository;
+    public UserServiceImpl(UserMapper userMapper) {
+        this.userMapper = userMapper;
+        
     }
     
     @Override
     public User addUser(User user) {
-        return jpaUserRepository.save(user);
+        save(user);
+        return user;
     }
     
     @Override
     public void delUser(String username) {
-        jpaUserRepository.deleteByUsername(username);
+        userMapper.delUser(username);
     }
     
     @Override
     public List<User> findAllUser() {
-        return jpaUserRepository.findAll();
+        return list();
     }
     
     @Override
     public User updateUser(User user) {
-        return jpaUserRepository.save(user);
+        updateById(user);
+        return user;
     }
     
     @Override
     public Optional<User> findUserByName(String username) {
-        return jpaUserRepository.findByUsername(username);
+        
+        return Optional.ofNullable(userMapper.getUser(username));
+    }
+    
+    @Override
+    public User findUserById(Long id) {
+        return getById(id);
     }
 }

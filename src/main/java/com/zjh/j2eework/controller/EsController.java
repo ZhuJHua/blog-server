@@ -1,5 +1,6 @@
 package com.zjh.j2eework.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.zjh.j2eework.pojo.Result;
 import com.zjh.j2eework.service.impl.ElasticServiceImpl;
@@ -28,7 +29,7 @@ public class EsController {
     }
     
     @DeleteMapping
-    @SaIgnore
+    @SaCheckLogin
     public void delAllArticle(){
         elasticService.delAllArticle();
     }

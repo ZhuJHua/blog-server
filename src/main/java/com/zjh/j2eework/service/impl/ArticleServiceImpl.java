@@ -1,9 +1,9 @@
 package com.zjh.j2eework.service.impl;
 
-import com.zjh.j2eework.dao.jpa.JpaArticleRepository;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zjh.j2eework.dao.mapper.ArticleMapper;
 import com.zjh.j2eework.entity.Article;
 import com.zjh.j2eework.service.ArticleService;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,64 +16,69 @@ import java.util.Optional;
  * @Date 2023/12/23
  */
 @Service
-public class ArticleServiceImpl implements ArticleService {
+public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
     
-    //article dao
-    private final JpaArticleRepository jpaArticleRepository;
+    private final ArticleMapper articleMapper;
     //敏感词检测Service
     private final SensitiveServiceImpl sensitiveService;
     //全文搜索Service
     private final ElasticServiceImpl elasticService;
+    private final CategoryServiceImpl categoryService;
+    private final UserServiceImpl userService;
     
-    public ArticleServiceImpl(JpaArticleRepository jpaArticleRepository, SensitiveServiceImpl sensitiveService,
-                              ElasticServiceImpl elasticService) {
-        this.jpaArticleRepository = jpaArticleRepository;
+    public ArticleServiceImpl(SensitiveServiceImpl sensitiveService,
+                              ElasticServiceImpl elasticService, ArticleMapper articleMapper,
+                              CategoryServiceImpl categoryService, UserServiceImpl userService) {
         this.sensitiveService = sensitiveService;
         this.elasticService = elasticService;
+        this.articleMapper = articleMapper;
+        this.categoryService = categoryService;
+        this.userService = userService;
     }
     
     @Override
     @Transactional
     public Article addArticle(Article article) {
         //文章写入到MySQL
-        Article savedArticle = jpaArticleRepository.save(article);
+        articleMapper.saveArticle(article);
         //文章写入到es
-        elasticService.saveToElasticSearch(savedArticle);
-        return savedArticle;
+        elasticService.saveToElasticSearch(article);
+        return article;
     }
     
     @Override
     @Transactional
     public void delArticle(Long id) {
         //删除MySQL中的文章
-        jpaArticleRepository.deleteById(id);
+        removeById(id);
+        articleMapper.deleteById(id);
         //删除es中的文章
         elasticService.delElasticSearch(id);
     }
     
     @Override
     public List<Article> findAllArticle() {
-        return jpaArticleRepository.findAll(Sort.by("postTime").descending());
+        return articleMapper.selectListWithUserAndCategory();
     }
     
     @Override
     @Transactional
     public Article updateArticle(Article article) {
         //更新newArticle中的文章
-        Article newArticle = jpaArticleRepository.save(article);
+        updateById(article);
         //更新es中的文章
-        elasticService.updateElasticSearch(newArticle);
-        return newArticle;
+        elasticService.updateElasticSearch(article);
+        return article;
     }
     
     @Override
     public Optional<Article> findArticleById(Long id) {
-        return jpaArticleRepository.findById(id);
+        return Optional.ofNullable(getById(id));
     }
     
     @Override
     public void updateViews(Long id) {
-        jpaArticleRepository.incrementViewCount(id);
+        articleMapper.updateViews(id);
     }
     
     @Override
@@ -85,7 +90,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Transactional
     public void flushElastic() {
         //从数据库中获取最新的article
-        List<Article> articleList = jpaArticleRepository.findAll();
+        List<Article> articleList = list();
         //删除es中所有数据
         elasticService.delAllArticle();
         //遍历list写入es

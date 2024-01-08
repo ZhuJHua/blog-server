@@ -1,5 +1,6 @@
 package com.zjh.j2eework.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.zjh.j2eework.entity.Article;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Optional;
  * @Author 住京华 www.zhujinghua.com
  * @Date 2023/12/23
  */
-public interface ArticleService {
+public interface ArticleService extends IService<Article> {
     Article addArticle(Article article);
     
     void delArticle(Long id);

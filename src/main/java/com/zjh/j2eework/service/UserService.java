@@ -1,5 +1,6 @@
 package com.zjh.j2eework.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.zjh.j2eework.entity.User;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Optional;
  * @Author 住京华 www.zhujinghua.com
  * @Date 2023/12/23
  */
-public interface UserService {
+public interface UserService extends IService<User> {
     User addUser(User user);
     
     void delUser(String username);
@@ -20,4 +21,6 @@ public interface UserService {
     User updateUser(User user);
     
     Optional<User> findUserByName(String username);
+    
+    User findUserById(Long id);
 }

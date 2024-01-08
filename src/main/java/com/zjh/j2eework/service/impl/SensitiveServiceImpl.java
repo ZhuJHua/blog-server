@@ -1,11 +1,15 @@
 package com.zjh.j2eework.service.impl;
 
-import com.zjh.j2eework.dao.jpa.JpaSensitiveRepository;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zjh.j2eework.dao.mapper.SensitiveMapper;
 import com.zjh.j2eework.entity.SensitiveWord;
 import com.zjh.j2eework.service.SensitiveService;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @Description Sensitive service
@@ -13,20 +17,21 @@ import java.util.*;
  * @Date 2023/12/28
  */
 @Service
-public class SensitiveServiceImpl implements SensitiveService {
+public class SensitiveServiceImpl extends ServiceImpl<SensitiveMapper, SensitiveWord> implements SensitiveService {
     
-    private final JpaSensitiveRepository jpaSensitiveRepository;
     private final SensitiveWordFilter sensitiveWordFilter;
+    private final SensitiveMapper sensitiveMapper;
     
-    public SensitiveServiceImpl(JpaSensitiveRepository jpaSensitiveRepository) {
-        this.jpaSensitiveRepository = jpaSensitiveRepository;
+    public SensitiveServiceImpl(SensitiveMapper sensitiveMapper) {
+        this.sensitiveMapper = sensitiveMapper;
+        
         sensitiveWordFilter = new SensitiveWordFilter();
         
     }
     
     @Override
     public void initSensitiveMap() {
-        Set<String> sensitiveWords = jpaSensitiveRepository.findAllDistinctContents();
+        Set<String> sensitiveWords = sensitiveMapper.getSensitiveWord();
         for (String word : sensitiveWords) {
             sensitiveWordFilter.addSensitiveWord(word);
         }
@@ -40,17 +45,17 @@ public class SensitiveServiceImpl implements SensitiveService {
     
     @Override
     public void addSensitive(SensitiveWord sensitive) {
-        jpaSensitiveRepository.save(sensitive);
+        save(sensitive);
     }
     
     @Override
     public void delSensitive(String name) {
-        jpaSensitiveRepository.deleteSensitiveWord(name);
+        sensitiveMapper.delSensitiveWord(name);
     }
     
     @Override
     public Set<String> getWordList() {
-        return jpaSensitiveRepository.findAllDistinctContents();
+        return sensitiveMapper.getSensitiveWord();
     }
     
     private static class SensitiveWordFilter {

@@ -1,5 +1,6 @@
 package com.zjh.j2eework.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.zjh.j2eework.entity.SensitiveWord;
 
 import java.util.Set;
@@ -9,7 +10,7 @@ import java.util.Set;
  * @Author 住京华 www.zhujinghua.com
  * @Date 2023/12/28
  */
-public interface SensitiveService {
+public interface SensitiveService extends IService<SensitiveWord> {
     void initSensitiveMap();
     
     boolean containsSensitiveWord(String text);

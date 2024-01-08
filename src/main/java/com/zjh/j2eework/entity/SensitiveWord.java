@@ -1,6 +1,9 @@
 package com.zjh.j2eework.entity;
 
-import jakarta.persistence.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -11,18 +14,15 @@ import lombok.ToString;
  * @Author 住京华 www.zhujinghua.com
  * @Date 2023/12/28
  */
-@Entity
+@TableName("sensitive_word")
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(name = "sensitive_word")
 public class SensitiveWord {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "sid", nullable = false)
+    @TableId(type = IdType.AUTO,value = "sid")
     private Long id;
     
-    @Column(name = "sensitive_word")
+    @TableField(value = "sensitive_word")
     private String sensitiveWord;
 }

@@ -51,7 +51,7 @@ public class ArticleController {
      * 增加文章
      */
     @PostMapping
-    @SaIgnore
+    @SaCheckLogin
     public Result addArticle(@RequestBody Article article) {
         //检测是否含有敏感词
         return !articleService.checkArticle(article.getContent()) ? new Result(OK.getCode(), "添加文章成功",
